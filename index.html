@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruleta Giratoria</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 5px solid #333;
+            overflow: hidden;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ff0000 0deg 60deg,
+                #ffff00 60deg 120deg,
+                #00ff00 120deg 180deg,
+                #0000ff 180deg 240deg,
+                #ff00ff 240deg 300deg,
+                #00ffff 300deg 360deg
+            );
+            transform: rotate(0deg);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .pointer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            transform: translate(-50%, -50%);
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid #333;
+        }
+
+        .spin-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .spin-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel"></div>
+        <div class="pointer"></div>
+    </div>
+    <button class="spin-button" id="spinButton">Girar</button>
+
+    <script>
+        const wheel = document.getElementById("wheel");
+        const spinButton = document.getElementById("spinButton");
+
+        spinButton.addEventListener("click", () => {
+            const randomDegree = Math.floor(Math.random() * 360) + 3600; // Múltiplo de 360° para giros completos
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
+
+            setTimeout(() => {
+                const finalDegree = randomDegree % 360;
+                const section = Math.floor(finalDegree / 60) + 1; // 6 secciones en 360°
+                alert(`¡Cayó en la sección ${section}!`);
+            }, 4000); // Coincide con la duración de la animación
+        });
+    </script>
+</body>
+</html>
